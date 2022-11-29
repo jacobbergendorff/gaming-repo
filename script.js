@@ -60,6 +60,18 @@ window.onload = function () {
     }
   };
 
+  // TIMER 
+
+  let remainingTimeElement = document.querySelector("#remainingTime"),
+    secondsLeft = 10;
+
+  const downloadTimer = setInterval(() => {
+    if (secondsLeft <= 0) clearInterval(downloadTimer);
+    remainingTimeElement.value = secondsLeft;
+    remainingTimeElement.textContent = secondsLeft;
+    secondsLeft -= 1;
+  }, 1000);
+  
   // Select Catagory
   var selectCat = function () {
     if (chosenCategory === categories[0]) {
