@@ -1,5 +1,7 @@
 const cells = document.querySelectorAll(".cell");
 const statusText = document.querySelector("#statusText");
+const livesX = document.querySelector("#livesX");
+const livesO = document.querySelector("#livesO")
 const restertBtn = document.querySelector("#restartBtn");
 const winConditions = [
   [0, 1, 2],
@@ -14,7 +16,15 @@ const winConditions = [
 
 let options = ["", "", "", "", "", "", "", "", "",];
 let currentPlayer = "X";
+let oppositePlayer = "O";
 let running = false;
+let currentLife = 3;
+
+
+initializeGame()
+lifeX();
+lifeO();
+
 
 initializeGame()
 
@@ -65,8 +75,9 @@ function checkWinner(){
 
     if(roundWon){
         statusText.textContent = `${currentPlayer} wins!`
+        lifeO();
         running = false;
-    }
+    } 
     else if(!options.includes("")){
         statusText.textContent = `Draw!`;
         running = false;
@@ -78,6 +89,7 @@ function checkWinner(){
 
 function restartGame(){
     currentPlayer = "X";
+    oppositePlayer = "O";
     options = ["", "", "", "", "", "", "", "", ""];
     statusText.textContent = `${currentPlayer}'s turn`
     cells.forEach(cell => cell.textContent = "");
@@ -86,15 +98,46 @@ function restartGame(){
 }
 
 
+function lifeX() {
+  livesX.textContent = `${currentPlayer} has ${currentLife} lives left`
+  currentLife--;
+  if (currentPlayer == "O" && roundWon == true){
+    currentLife --;
+  }
+  else if (currentLife <= 0) {
+    livesX.textContent= `${currentPlayer} you lose!`
+
+    }
+}
+function lifeO() {
+  livesO.textContent = `${oppositePlayer} has ${currentLife} lives left`;
+  oppositePlayer--;
+  if (oppositePlayer <= 0) {
+    livesO.textContent= `${oppositePlayer} you lose!`
+    }
+}
+
 
   // TIMER 
 
   // let remainingTimeElement = document.querySelector("#remainingTime"),
   //   secondsLeft = 10;
-
   // const downloadTimer = setInterval(() => {
   //   if (secondsLeft <= 0) clearInterval(downloadTimer);
   //   remainingTimeElement.value = secondsLeft;
   //   remainingTimeElement.textContent = secondsLeft;
+    
   //   secondsLeft -= 1;
   // }, 1000);
+
+  let remainingTimeElement = document.getElementById("remainingTime"),
+  secondsLeft = 10;
+const downloadTimer = setInterval(() => {
+  if (secondsLeft <= 0) clearInterval(downloadTimer);
+  remainingTimeElement.value = secondsLeft;
+  // remainingTimeElement.textContent = secondsLeft;
+  remainingTimeElement.innerHTML = secondsLeft+  " seconds left"
+  
+  secondsLeft -= 1;
+}, 1000);
+
